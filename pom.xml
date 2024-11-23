@@ -70,9 +70,9 @@
 	<distributionManagement>
 		<repository>
 			<uniqueVersion>false</uniqueVersion>
-			<id>nexus-release-jenkins</id>
+			<id>nexus-release-jenkins2</id>
 			<name>nexus-release</name>
-			<url>http://localhost:8081/repository/nexus-release-jenkins/</url>
+			<url>http://localhost:8081/repository/nexus-release-jenkins2/</url>
 		</repository>
 	</distributionManagement>
 </project>
