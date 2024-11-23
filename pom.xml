@@ -67,5 +67,12 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	<distributionManagement>
+		<repository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>nexus-release-jenkins</id>
+			<name>nexus-release</name>
+			<url>http://localhost:8081/repository/nexus-release-jenkins/</url>
+		</repository>
+	</distributionManagement>
 </project>
