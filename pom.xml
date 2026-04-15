@@ -69,10 +69,12 @@
 	</build>
 	<distributionManagement>
 		<repository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>nexus-release-jenkins2</id>
-			<name>nexus-release</name>
-			<url>http://localhost:8081/repository/nexus-release-jenkins2/</url>
+			<id>nexus-releases</id>
+			<url>http://localhost:8081/repository/maven-releases/</url>
 		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<url>http://localhost:8081/repository/maven-snapshots/</url>
+		</snapshotRepository>
 	</distributionManagement>
 </project>
