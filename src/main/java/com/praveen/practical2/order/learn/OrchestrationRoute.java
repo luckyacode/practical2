@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class OrchestrationRoute extends RouteBuilder {
 
     // Defined Constants
-    private static final int TOTAL_LEVEL_VAL = 2;
+    private static final int TOTAL_LEVEL_VAL = 5;
     private static final String ASSESS_ENDPOINT_VAL = "activemq:queue:provider.A,activemq:queue:provider.B";
     private static final String STR_VAL = null; // Setting to null so the .isNull() condition passes
 
@@ -40,6 +40,7 @@ public class OrchestrationRoute extends RouteBuilder {
                 .setExchangePattern(ExchangePattern.InOut)
                 .loop(exchangeProperty("totalLevel"))
                 .choice()
+                .log("totalLevel now :  ${exchangeProperty.totalLevel}")
                 .when(PredicateBuilder.and(
                         exchangeProperty("ASSESS_ENDPOINT").isNotNull(),
                         exchangeProperty("STR").isNull()

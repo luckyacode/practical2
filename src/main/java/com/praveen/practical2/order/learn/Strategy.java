@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component("preAggregationStrategy")
 class PreAggProcessor implements Processor {
-    public void process(Exchange e) { e.setProperty("totalLevel", 2); e.setProperty("corelationId", "123"); }
+    public void process(Exchange e) { e.setProperty("totalLevel2", 2); e.setProperty("corelationId2", "123"); }
 }
 
 @Component("requestConverter")
