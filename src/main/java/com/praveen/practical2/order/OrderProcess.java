@@ -10,20 +10,35 @@ public class OrderProcess extends RouteBuilder {
     public void configure() throws Exception {
         from("activemq:queue:orders.incoming")
                 .routeId("OrderFlowOrchestrator")
-                .log("Order Received: ${body}")
 
-                // Step 1: Send to Payment Queue and WAIT for response
-                .log("Requesting Payment for Order...")
+                // 1. STORE: Save the original order body into a property
+                .setProperty("originalOrder", body())
+                .log("Order Received: ${exchangeProperty.originalOrder}")
+
+                // 2. FRAUD CHECK
+                .log("Requesting Fraud Detection...")
+                .to(ExchangePattern.InOut, "activemq:queue:fraud.request?requestTimeout=5000")
+
+                // 3. MANIPULATE: Store fraud result and rebuild the body for Payment
+                .setProperty("fraudStatus", body())
+                .log("Fraud Status: ${exchangeProperty.fraudStatus}")
+
+                // Reconstruct the body to send to Payment (Original Order + Fraud Result)
+                .setBody(simple("${exchangeProperty.originalOrder} | FraudCheck: ${exchangeProperty.fraudStatus}"))
+
+                // 4. PAYMENT
+                .log("Requesting Payment with body: ${body}")
                 .to(ExchangePattern.InOut, "activemq:queue:payment.request?requestTimeout=5000")
 
-                // Step 2: The ${body} is now the response from the Payment Service
+                // 5. FINAL SEND
                 .choice()
                 .when(simple("${body} contains 'SUCCESS'"))
                 .log("Payment Verified: ${body}")
-                .setBody(simple("${body} - Transaction Processed Successfully"))
+                // Combine everything for the final success message
+                .setBody(simple("Order: ${exchangeProperty.originalOrder} | Status: ${body}"))
                 .to("activemq:queue:transaction.success")
                 .otherwise()
-                .log("Payment Failed or Pending: ${body}")
+                .log("Payment Failed: ${body}")
                 .to("activemq:queue:transaction.failed")
                 .end();
     }

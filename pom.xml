@@ -30,7 +30,11 @@
 		<java.version>25</java.version>
 	</properties>
 	<dependencies>
-
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-bean</artifactId>
+			<version>4.10.0</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-activemq</artifactId>
@@ -39,6 +43,11 @@
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-core-languages</artifactId>
+			<version>4.10.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel.springboot</groupId>
+			<artifactId>camel-spring-boot-starter</artifactId>
 			<version>4.10.0</version>
 		</dependency>
 		<dependency>
@@ -78,31 +87,6 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.11</version>
-				<executions>
-					<execution>
-						<id>prepare-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>report</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-					<plugin>
-						<groupId>org.sonarsource.scanner.maven</groupId>
-						<artifactId>sonar-maven-plugin</artifactId>
-						<version>5.0.0.4389</version>
-					</plugin>
-			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
@@ -116,13 +100,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<distributionManagement>
-		<repository>
-			<id>nexus-releases</id>
-			<url>http://admin:praveen%40123@localhost:8081/repository/maven-snapshots/</url>		</repository>
-		<snapshotRepository>
-			<id>nexus-snapshots</id>
-			<url>http://admin:praveen%40123@localhost:8081/repository/maven-snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
 </project>
