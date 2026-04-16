@@ -16,7 +16,7 @@ class ReqConvProcessor implements Processor {
 
 @Component("riskRuleProcessor")
 class RiskRuleProcessor implements Processor {
-    public void process(Exchange e) { e.setProperty("ASSESS_ENDPOINT", "activemq:queue:fraud.request"); }
+    public void process(Exchange e) { e.setProperty("riskProcess", "success"); }
 }
 
 @Component("riskLevelProcessor")

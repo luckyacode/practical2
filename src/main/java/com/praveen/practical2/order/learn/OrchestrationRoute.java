@@ -44,6 +44,7 @@ public class OrchestrationRoute extends RouteBuilder {
                         exchangeProperty("ASSESS_ENDPOINT").isNotNull(),
                         exchangeProperty("STR").isNull()
                 ))
+                .log("Logging values: ${exchangeProperty.ASSESS_ENDPOINT} | STR is null: ${exchangeProperty.STR}")
                 .setHeader("CORELATION_ID", simple("${exchangeProperty.corelationId}"))
                 .setBody(exchangeProperty("LRSRequest"))
                 .convertBodyTo(String.class)
@@ -66,7 +67,7 @@ public class OrchestrationRoute extends RouteBuilder {
                 .to("activemq:queue:responseEndpoint")
                 .wireTap("direct:performanceLog");
 
-        from("direct:performanceLog")
+                from("direct:performanceLog")
                 .log("Performance Trace: ${body}");
     }
 }

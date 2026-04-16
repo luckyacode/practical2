@@ -28,4 +28,22 @@ public class ProviderAService {
             return "provider.A FAILED";
         }
     }
+
+    @SneakyThrows
+    @JmsListener(destination = "responseEndpoint")
+    @SendTo("queue:responseEndpoint.replies.fallback") // Spring returns the result to the JMSReplyTo header set by Camel
+    public String responseEndpoint(String orderDetails, Message message) {
+        System.out.println("Processing responseEndpoint  for: " + orderDetails);
+        System.out.println("process message corelationId "+message.getJMSCorrelationID());
+        // Logic to verify payment...
+        boolean isSuccess = (new Random()).nextBoolean();
+
+        if (isSuccess) {
+            System.out.println("responseEndpoint Processed Success ....");
+            return "responseEndpoint SUCCESS";
+        } else {
+            System.out.println("responseEndpoint,  failed");
+            return "responseEndpoint FAILED";
+        }
+    }
 }
