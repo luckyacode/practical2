@@ -13,6 +13,11 @@ public class MQController {
     private  LoanProducer loanProducer;
     @GetMapping("/produce/{loanId}")
     public String produce(@PathVariable String loanId){
-        return loanProducer.sendApplication(loanId);
+        return loanProducer.sendApplication2(loanId);
+    }
+
+    @GetMapping("/test/{loanId}")
+    public String test(@PathVariable String loanId){
+        return loanProducer.test(loanId);
     }
 }
