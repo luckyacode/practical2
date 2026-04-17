@@ -9,8 +9,8 @@ import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 import java.util.*;
 
-@Component("consumerChecker")
-public class ConsumerChecker {
+@Component("activeMqMonitor")
+public class ActiveMqMonitor {
 
     private final String JMX_URL = "service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi";
 

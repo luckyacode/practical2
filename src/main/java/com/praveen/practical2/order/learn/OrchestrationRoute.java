@@ -17,6 +17,9 @@ public class OrchestrationRoute extends RouteBuilder {
     public void configure() throws Exception {
 
         from("activemq:queue:requestEndPoint")
+                .log("Order received. Checking system readiness...")
+                // This will BLOCK the route here until Tomcat is fully ready
+                .process("waitForAllListenersProcessor")
                 .id("AppNode-Request/Response-Node")
                 .setExchangePattern(ExchangePattern.InOnly)
 

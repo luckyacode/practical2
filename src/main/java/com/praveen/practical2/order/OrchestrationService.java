@@ -1,6 +1,6 @@
 package com.praveen.practical2.order;
 
-import com.praveen.practical2.order.learn.ConsumerChecker;
+import com.praveen.practical2.order.learn.ActiveMqMonitor;
 import com.praveen.practical2.order.learn.OrchestrationRoute;
 import lombok.SneakyThrows;
 import org.apache.camel.CamelContext;
@@ -18,11 +18,11 @@ public class OrchestrationService {
         private JmsTemplate jmsTemplate;
 
         @Autowired
-        private ConsumerChecker consumerChecker;
+        private ActiveMqMonitor activeMqMonitor;
 
         public String sendApplication(String msg) {
-            System.out.println(consumerChecker.getAllActiveQueues());
-            System.out.println("Actively listening queue : "+msg+" - "+consumerChecker.isQueueActivelyListening(msg));
+            System.out.println(activeMqMonitor.getAllActiveQueues());
+            System.out.println("Actively listening queue : "+msg+" - "+activeMqMonitor.isQueueActivelyListening(msg));
             System.out.println("Sending requestEndpointMsg: " + msg);
             jmsTemplate.convertAndSend("requestEndPoint",   msg);
             return "Success Process Now";
