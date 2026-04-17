@@ -9,7 +9,7 @@ import java.util.Random;
 @Service
 public class ProviderBService {
 
-    @JmsListener(destination = "provider.BC")
+    @JmsListener(destination = "provider.B")
     @SendTo("queue:provider.B.replies.fallback") // Spring returns the result to the JMSReplyTo header set by Camel
     public String processProviderB(String orderDetails) {
         System.out.println("Processing provider.B  for: " + orderDetails);

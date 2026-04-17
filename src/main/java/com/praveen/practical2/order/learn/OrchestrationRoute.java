@@ -1,6 +1,7 @@
 package com.praveen.practical2.order.learn;
 
 import org.apache.camel.ExchangePattern;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.PredicateBuilder;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
@@ -16,10 +17,19 @@ public class OrchestrationRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
+        // When the "Not Ready" exception happens:
+        onException(ListenerNotReadyException.class)
+                .maximumRedeliveries(-1)     // Retry forever until Tomcat is up
+                .redeliveryDelay(60000)      // Wait exactly 1 minute before trying again
+                .asyncDelayedRedelivery()    // CRITICAL: This releases the thread back to the pool!
+                .retryAttemptedLogLevel(LoggingLevel.WARN)
+                .handled(true)               // Don't log a giant error stack trace
+                .log("Tomcat still booting. Message returned to queue. Will retry in 60s...");
+
         from("activemq:queue:requestEndPoint")
                 .log("Order received. Checking system readiness...")
                 // This will BLOCK the route here until Tomcat is fully ready
-                .process("waitForAllListenersProcessor")
+                .process("checkReadinessProcessor")
                 .id("AppNode-Request/Response-Node")
                 .setExchangePattern(ExchangePattern.InOnly)
 
