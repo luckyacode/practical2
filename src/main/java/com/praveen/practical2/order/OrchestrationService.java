@@ -1,5 +1,6 @@
 package com.praveen.practical2.order;
 
+import com.praveen.practical2.order.learn.ConsumerChecker;
 import com.praveen.practical2.order.learn.OrchestrationRoute;
 import lombok.SneakyThrows;
 import org.apache.camel.CamelContext;
@@ -16,7 +17,12 @@ public class OrchestrationService {
         @Autowired
         private JmsTemplate jmsTemplate;
 
+        @Autowired
+        private ConsumerChecker consumerChecker;
+
         public String sendApplication(String msg) {
+            System.out.println(consumerChecker.getAllActiveQueues());
+            System.out.println("Actively listening queue : "+msg+" - "+consumerChecker.isQueueActivelyListening(msg));
             System.out.println("Sending requestEndpointMsg: " + msg);
             jmsTemplate.convertAndSend("requestEndPoint",   msg);
             return "Success Process Now";

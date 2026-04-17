@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class OrchestrationRoute extends RouteBuilder {
 
     // Defined Constants
-    private static final int TOTAL_LEVEL_VAL = 5;
+    private static final int TOTAL_LEVEL_VAL = 1;
     private static final String ASSESS_ENDPOINT_VAL = "activemq:queue:provider.A,activemq:queue:provider.B";
     private static final String STR_VAL = null; // Setting to null so the .isNull() condition passes
 
